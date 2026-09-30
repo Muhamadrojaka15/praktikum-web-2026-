@@ -23,3 +23,4 @@ proyek, lalu tuliskan teks berikut:
 - BIOS	0401
 - Versi Node Js v24.21.0.
 - Versi Git  (2.56.0) x64 version of Git for Windows.
+- Versi Laragon v8. 7.0 260814
