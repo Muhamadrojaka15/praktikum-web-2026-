@@ -9,7 +9,7 @@ proyek, lalu tuliskan teks berikut:
 ## Catatan Modul 1
 - Instalasi & Verifikasi Tools (VS Code, Node.js, Laragon, Git).
 - Uji coba Laragon MySQL berjalan pada Port 3306.
-- Konfigurasi identitas Git global.git remote add origin https://github.com/USERNAME/praktikum-web2026.git
+- Konfigurasi identitas Git global.git remote add origin https://github.com/Muhamadrojaka15/praktikum-web2026.git
 ---
  ### Spesifikasi Perangkat
 
