@@ -1,4 +1,3 @@
-proyek, lalu tuliskan teks berikut:
 # Repositori Praktikum Pemrograman Web 2026
 **Informasi Mahasiswa:**
 * **Nama:** [MUHAMAD ROJAKA]
