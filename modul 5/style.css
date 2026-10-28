@@ -46,3 +46,27 @@ button.add-btn:hover { background-color: #1e40af; }
 .complete-btn:hover { background-color: #15803d; }
 .delete-btn { background-color: #dc2626; color: white; }
 .delete-btn:hover { background-color: #b91c1c; }
+
+/* Fitur 1: Task Counter */
+.task-counter {
+    text-align: center; font-size: 13px; color: #475569; background-color: #eff6ff;
+    padding: 8px 12px; border-radius: 6px; margin-bottom: 16px; font-weight: 600;
+}
+
+/* Fitur 2: Tombol Bersihkan Tugas Selesai */
+.clear-btn {
+    width: 100%; margin-top: 6px; padding: 10px; border: none; border-radius: 6px;
+    background-color: #64748b; color: white; font-weight: bold; cursor: pointer;
+}
+.clear-btn:hover { background-color: #475569; }
+.clear-btn[hidden] { display: none; }
+
+/* Notifikasi (toast) */
+.toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px);
+    background-color: #16a34a; color: white; padding: 12px 20px; border-radius: 8px;
+    font-size: 14px; font-weight: 600; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast.info { background-color: #64748b; }

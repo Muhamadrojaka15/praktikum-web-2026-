@@ -1,19 +1,37 @@
-// File: script.js
+
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Ambil elemen DOM
     const todoForm = document.querySelector("#todoForm");
     const taskInput = document.querySelector("#taskInput");
     const inputError = document.querySelector("#inputError");
     const todoList = document.querySelector("#todoList");
+    const taskCounter = document.querySelector("#taskCounter");
+    const clearCompletedBtn = document.querySelector("#clearCompletedBtn");
+    const toast = document.querySelector("#toast");
+    let toastTimer;
 
-    // 2. Fungsi membaca dan menyimpan ke LocalStorage
+    const showToast = (message, type = "success") => {
+        toast.textContent = message;
+        toast.className = `toast show ${type === "info" ? "info" : ""}`;
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
+    };
+
     const getTasks = () => JSON.parse(localStorage.getItem("todo_tasks")) || [];
     const saveTasks = (tasks) => localStorage.setItem("todo_tasks", JSON.stringify(tasks));
 
-    // 3. Fungsi menampilkan daftar tugas ke layar
+    const updateCounter = (tasks) => {
+        const total = tasks.length;
+        const selesai = tasks.filter((t) => t.completed).length;
+        const belum = total - selesai;
+        taskCounter.textContent = `Total: ${total} Tugas | Selesai: ${selesai} | Belum Selesai: ${belum}`;
+    };
+
     const renderTasks = () => {
         const tasks = getTasks();
         todoList.innerHTML = "";
+        updateCounter(tasks);
+
+        clearCompletedBtn.hidden = !tasks.some((task) => task.completed);
 
         if (tasks.length === 0) {
             todoList.innerHTML = "<p style='text-align:center; color:#64748b; font-size:13px; padding:10px;'>Belum ada tugas tersimpan.</p>";
@@ -36,23 +54,19 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // 4. Tambah tugas saat formulir dikirim
     todoForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const taskText = taskInput.value.trim();
 
-        // Validasi input sederhana
         if (taskText.length < 3) {
             taskInput.classList.add("error");
             inputError.style.display = "block";
             return;
         }
 
-        // Jika valid, hilangkan pesan error
         taskInput.classList.remove("error");
         inputError.style.display = "none";
 
-        // Simpan tugas baru ke array LocalStorage
         const tasks = getTasks();
         tasks.push({ text: taskText, completed: false });
         saveTasks(tasks);
@@ -61,7 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
         renderTasks();
     });
 
-    // 5. Tangani klik tombol Selesai dan Hapus menggunakan Event Listener pada todoList
     todoList.addEventListener("click", (e) => {
         const index = e.target.dataset.index;
         if (index === undefined) return;
@@ -73,12 +86,24 @@ document.addEventListener("DOMContentLoaded", () => {
             saveTasks(tasks);
             renderTasks();
         } else if (e.target.classList.contains("delete-btn")) {
-            tasks.splice(index, 1);
-            saveTasks(tasks);
-            renderTasks();
+            if (confirm("Apakah Anda yakin ingin menghapus tugas ini?")) {
+                tasks.splice(index, 1);
+                saveTasks(tasks);
+                renderTasks();
+            }
         }
     });
 
-    // Render pertama kali saat halaman selesai dimuat
+    clearCompletedBtn.addEventListener("click", () => {
+        const semua = getTasks();
+        const tersisa = semua.filter((task) => !task.completed);
+        const jumlahDihapus = semua.length - tersisa.length;
+        if (jumlahDihapus === 0) return;
+
+        saveTasks(tersisa);
+        renderTasks();
+        showToast(`${jumlahDihapus} tugas selesai berhasil dibersihkan!`);
+    });
+
     renderTasks();
 });
